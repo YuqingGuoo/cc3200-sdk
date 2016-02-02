@@ -39,7 +39,8 @@
 #*****************************************************************************
 #Connect To the tartget using OpenOCD
 #*****************************************************************************
-target remote | openocd -s /Applications/GNU\ ARM\ Eclipse/OpenOCD/0.10.0-201601101000-dev/scripts/ -c "gdb_port pipe; log_output openocd.log" -f ~/work/cc3200-sdk/tools/gcc_scripts/cc3200.cfg
+#target remote | openocd -s /Applications/GNU\ ARM\ Eclipse/OpenOCD/0.10.0-201601101000-dev/scripts/ -c "gdb_port pipe; log_output openocd.log" -f ~/work/cc3200-sdk/tools/gcc_scripts/cc3200.cfg
+target remote localhost:3333
 #target remote | openocd -s ${OPENOCD}/scripts/ -c "gdb_port pipe; log_output openocd.log" -f ${CC3200_SDK}/tools/gcc_scripts/cc3200.cfg
 
 #*****************************************************************************

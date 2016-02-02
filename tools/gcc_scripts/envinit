@@ -10,3 +10,5 @@ export PATH=$PATH:${OPENOCD}/bin/
 # sdk path
 export CC3200_SDK=~/work/cc3200-sdk/
 
+alias dbg='arm-none-eabi-gdb -x ${CC3200_SDK}/tools/gcc_scripts/gdbinit'
+
