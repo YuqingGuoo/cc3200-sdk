@@ -1,6 +1,6 @@
 #
 # This file was generated based on the configuration script:
-#     D:\GIT\a0132167_sdk_1.1.0\source-1p1-rahul\ti_rtos\ti_rtos_config\app.cfg
+#     D:\ti\CC3200SDK_1.1.0\cc3200-sdk\ti_rtos\ti_rtos_config\app.cfg
 #
 # This makefile may be included in other makefiles that need to build
 # the libraries containing the compiled source files generated as
@@ -14,7 +14,7 @@
 #
 # The absolute path to the generated source directory (at the time the
 # sources were generated) is:
-#    D:\GIT\a0132167_sdk_1.1.0\source-1p1-rahul\ti_rtos\ti_rtos_config\src
+#    D:\ti\CC3200SDK_1.1.0\cc3200-sdk\ti_rtos\ti_rtos_config\src
 #
 GEN_SRC_DIR ?= ../../src
 

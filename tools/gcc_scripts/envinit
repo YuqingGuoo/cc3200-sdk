@@ -1,0 +1,12 @@
+
+export OPENOCD=/Applications/GNU\ ARM\ Eclipse/OpenOCD/0.10.0-201601101000-dev
+
+ #gcc path
+export PATH=$PATH:/opt/gcc-arm-none-eabi-4_9-2015q3/bin/
+
+# openocd path
+export PATH=$PATH:${OPENOCD}/bin/
+
+# sdk path
+export CC3200_SDK=~/work/cc3200-sdk/
+

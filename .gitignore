@@ -1,2 +1,6 @@
 *.obj
 *.bin
+*.axf
+*.log
+/gcc/obj
+/gcc/exe
