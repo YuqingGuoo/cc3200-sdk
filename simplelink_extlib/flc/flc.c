@@ -24,7 +24,7 @@ static _i32 _ReadBootInfo(sBootInfo_t *psBootInfo);
 
 /* Save bootinfo on ImageCommit call */
 static sBootInfo_t sBootInfo;
-
+static int sBootInfoRead = 0;
 
 _i32 sl_extlib_FlcCommit(_i32 CommitFlag)
 {
@@ -105,6 +105,11 @@ _i32 _McuImageGetNewIndex(void)
 {
     _i32 newImageIndex;
 
+    if (sBootInfoRead == 0)
+    {
+        _ReadBootInfo(&sBootInfo);
+    }
+
     /* Assume sBootInfo is alrteady filled in init time (by sl_extlib_FlcCommit) */
     switch(sBootInfo.ucActiveImg)
     {
@@ -147,6 +152,10 @@ static _i32 _ReadBootInfo(sBootInfo_t *psBootInfo)
     _u32 ulToken;
     _i32 status = -1;
 
+    // initialize
+    memset(psBootInfo, 0, sizeof(sBootInfo_t));
+    psBootInfo->ucActiveImg = IMG_ACT_USER1;
+
     if( 0 == sl_FsOpen((_u8 *)IMG_BOOT_INFO, FS_MODE_OPEN_READ, &ulToken, &lFileHandle) )
     {
         if( 0 < sl_FsRead(lFileHandle, 0, (_u8 *)psBootInfo, sizeof(sBootInfo_t)) )
@@ -156,6 +165,8 @@ static _i32 _ReadBootInfo(sBootInfo_t *psBootInfo)
         }
         sl_FsClose(lFileHandle, 0, 0, 0);
     }
+
+    sBootInfoRead = 1;
 
     return status;
 }
