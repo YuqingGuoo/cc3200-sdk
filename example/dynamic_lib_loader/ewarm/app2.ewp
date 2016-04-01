@@ -29,7 +29,7 @@
         </option>
         <option>
           <name>Variant</name>
-          <version>20</version>
+          <version>21</version>
           <state>39</state>
         </option>
         <option>
@@ -60,7 +60,7 @@
         </option>
         <option>
           <name>FPU</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -137,12 +137,12 @@
         </option>
         <option>
           <name>GFPUCoreSlave</name>
-          <version>20</version>
+          <version>21</version>
           <state>39</state>
         </option>
         <option>
           <name>GBECoreSlave</name>
-          <version>20</version>
+          <version>21</version>
           <state>39</state>
         </option>
         <option>
@@ -250,11 +250,11 @@
         </option>
         <option>
           <name>IExtraOptionsCheck</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state></state>
+          <state>--diag_suppress Pa050</state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -614,6 +614,7 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>

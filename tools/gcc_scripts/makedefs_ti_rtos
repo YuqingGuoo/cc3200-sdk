@@ -45,16 +45,16 @@ AR = "$(CODEGEN_INSTALLATION_DIR)/bin/arm-none-eabi-ar"
 
 OBJCOPY = "$(CODEGEN_INSTALLATION_DIR)/bin/arm-none-eabi-objcopy"
 
-XDCTOOLS_INSTALLATION_DIR := C:/ti/xdctools_3_30_04_52_core
+XDCTOOLS_INSTALLATION_DIR := C:/ti/xdctools_3_32_00_06_core
 
 # The following is ignored if xdctools has the JRE
-export XDCTOOLS_JAVA_HOME := C:/ti/xdctools_3_30_04_52_core/jre
+export XDCTOOLS_JAVA_HOME := C:/ti/xdctools_3_32_00_06_core/jre
 
-TIRTOS_INSTALLATION_DIR := c:/ti/tirtos_simplelink_2_01_00_03
+TIRTOS_INSTALLATION_DIR := c:/ti/tirtos_cc32xx_2_15_00_17
 
 
-BIOS_INSTALLATION_DIR  ?= C:/ti/tirtos_simplelink_2_01_00_03/products/bios_6_40_03_39/packages
-UIA_INSTALLATION_DIR   ?= C:/ti/tirtos_simplelink_2_01_00_03/products/uia_2_00_01_34/packages
+BIOS_INSTALLATION_DIR  ?= C:/ti/tirtos_cc32xx_2_15_00_17/products/bios_6_45_00_20/packages
+UIA_INSTALLATION_DIR   ?= C:/ti/tirtos_cc32xx_2_15_00_17/products/uia_2_00_02_39/packages
 IPC_INSTALLATION_DIR   ?= 
 NDK_INSTALLATION_DIR   ?= 
 

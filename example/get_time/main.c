@@ -143,7 +143,7 @@ extern uVectorEntry __vector_table;
 //!
 //!    ##   For more SNTP server link visit 'http://tf.nist.gov/tf-cgi/servers.cgi'
 //!    ###################################################################################
-const char g_acSNTPserver[30] = "nist1-nj2.ustiming.org"; //Add any one of the above servers
+const char g_acSNTPserver[30] = "time-a.nist.gov"; //Add any one of the above servers
 
 // Tuesday is the 1st day in 2013 - the relative year
 const char g_acDaysOfWeek2013[7][3] = {{"Tue"},

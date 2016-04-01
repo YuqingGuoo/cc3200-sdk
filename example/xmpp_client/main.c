@@ -63,7 +63,7 @@
 #define XMPP_IP_ADDR        0x40e9a77d
 #define XMPP_DST_PORT       5223
 #define BUF_SIZE            1400
-#define REMOTE_USERID_LEN   50
+#define REMOTE_USERID_LEN   128
 #define RECV_MSG_LEN        50
 #define OSI_STACK_SIZE      3000
 //
@@ -247,8 +247,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
             pEventData = &pWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request,
-            //'reason_code' is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            //'reason_code' is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("[WLAN EVENT]Device disconnected from the AP: %s,"
                 "BSSID: %x:%x:%x:%x:%x:%x on application's request \n\r",

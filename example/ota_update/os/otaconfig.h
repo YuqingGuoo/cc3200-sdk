@@ -45,7 +45,7 @@
 #define OTA_SERVER_REST_HDR_VAL         "<dropbox access key>"
 #define LOG_SERVER_NAME                 "api-content.dropbox.com"
 #define OTA_SERVER_REST_FILES_PUT       "/1/files_put/auto/"
-#define OTA_VENDOR_STRING               "Vid00_Pid00_Ver00"
+#define OTA_VENDOR_STRING               "Vid01_Pid00_Ver00"
 
 
 

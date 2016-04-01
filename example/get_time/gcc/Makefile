@@ -74,6 +74,7 @@ IPATH+=../../../third_party/FreeRTOS
 IPATH+=../../../third_party/FreeRTOS/source
 IPATH+=../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4
 IPATH+=../../../third_party/FreeRTOS/source/include
+IPATH+=../../../simplelink_extlib/provisioninglib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -108,6 +109,7 @@ ${BINDIR}/get_time.axf: ${OBJDIR}/timer_if.o
 ${BINDIR}/get_time.axf: ${OBJDIR}/gpio_if.o
 ${BINDIR}/get_time.axf: ${OBJDIR}/uart_if.o
 ${BINDIR}/get_time.axf: ${OBJDIR}/udma_if.o
+${BINDIR}/get_time.axf: ${OBJDIR}/network_common.o
 ${BINDIR}/get_time.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/get_time.axf: ${ROOT}/simplelink/${COMPILER}/${BINDIR}/libsimplelink.a
 ${BINDIR}/get_time.axf: ${ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a

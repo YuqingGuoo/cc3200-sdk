@@ -80,4 +80,6 @@ void PinMuxConfig(void)
     //
     PinTypeGPIO(PIN_15, PIN_MODE_0, false);
     GPIODirModeSet(GPIOA2_BASE, 0x40, GPIO_DIR_MODE_IN);
+    
+
 }

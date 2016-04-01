@@ -418,6 +418,19 @@ void sl_HttpServerCallback(SlHttpServerEvent_t *pSlHttpServerEvent,
 {
 }
 
+//*****************************************************************************
+//
+//! \brief This function handles General Events
+//!
+//! \param[in]     pDevEvent - Pointer to General Event Info
+//!
+//! \return None
+//!
+//*****************************************************************************
+void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent)
+{
+
+}
 
 //*****************************************************************************
 //

@@ -138,12 +138,18 @@ typedef struct connection_config{
     bool is_connected;
 }connect_config;
 
-typedef enum events
+typedef enum
 {
     PUSH_BUTTON_SW2_PRESSED,
     PUSH_BUTTON_SW3_PRESSED,
     BROKER_DISCONNECTION
-}osi_messages;
+}events;
+
+typedef struct
+{
+	void * hndl;
+	events event;
+}event_msg;
 
 //*****************************************************************************
 //                      LOCAL FUNCTION PROTOTYPES
@@ -357,19 +363,18 @@ static void
 sl_MqttDisconnect(void *app_hndl)
 {
     connect_config *local_con_conf;
-    osi_messages var = BROKER_DISCONNECTION;
+    event_msg msg;
     local_con_conf = app_hndl;
-    sl_ExtLib_MqttClientUnsub(local_con_conf->clt_ctx, local_con_conf->topic,
-                              TOPIC_COUNT);
+    msg.hndl = app_hndl;
+    msg.event = BROKER_DISCONNECTION;
+
     UART_PRINT("disconnect from broker %s\r\n",
            (local_con_conf->broker_config).server_info.server_addr);
     local_con_conf->is_connected = false;
-    sl_ExtLib_MqttClientCtxDelete(local_con_conf->clt_ctx);
-
     //
     // write message indicating publish message
     //
-    osi_MsgQWrite(&g_PBQueue,&var,OSI_NO_WAIT);
+    osi_MsgQWrite(&g_PBQueue,&msg,OSI_NO_WAIT);
 
 }
 
@@ -386,11 +391,14 @@ sl_MqttDisconnect(void *app_hndl)
 //****************************************************************************
 void pushButtonInterruptHandler2()
 {
-    osi_messages var = PUSH_BUTTON_SW2_PRESSED;
+	event_msg msg;
+
+    msg.event = PUSH_BUTTON_SW2_PRESSED;
+    msg.hndl = NULL;
     //
     // write message indicating publish message
     //
-    osi_MsgQWrite(&g_PBQueue,&var,OSI_NO_WAIT);
+    osi_MsgQWrite(&g_PBQueue,&msg,OSI_NO_WAIT);
 }
 
 //****************************************************************************
@@ -406,11 +414,13 @@ void pushButtonInterruptHandler2()
 //****************************************************************************
 void pushButtonInterruptHandler3()
 {
-    osi_messages var = PUSH_BUTTON_SW3_PRESSED;
+	event_msg msg;
+	msg.event = PUSH_BUTTON_SW3_PRESSED;
+    msg.hndl = NULL;
     //
     // write message indicating exit from sending loop
     //
-    osi_MsgQWrite(&g_PBQueue,&var,OSI_NO_WAIT);
+    osi_MsgQWrite(&g_PBQueue,&msg,OSI_NO_WAIT);
 
 }
 
@@ -598,6 +608,7 @@ DisplayBanner(char * AppName)
     UART_PRINT("\n\n\n\r");
 }
   
+extern volatile unsigned long g_ulStatus;
 //*****************************************************************************
 //
 //! Task implementing MQTT client communication to other web client through
@@ -621,7 +632,8 @@ void MqttClient(void *pvParameters)
     int iCount = 0;
     int iNumBroker = 0;
     int iConnBroker = 0;
-    osi_messages RecvQue;
+    event_msg RecvQue;
+    unsigned char policyVal;
     
     connect_config *local_con_conf = (connect_config *)app_hndl;
 
@@ -669,6 +681,13 @@ void MqttClient(void *pvParameters)
        LOOP_FOREVER();
     }
 
+    lRetVal = sl_WlanProfileAdd(SSID_NAME,strlen(SSID_NAME),0,&SecurityParams,0,1,0);
+
+    //set AUTO policy
+    lRetVal = sl_WlanPolicySet(SL_POLICY_CONNECTION,
+                      SL_CONNECTION_POLICY(1,0,0,0,0),
+                      &policyVal, 1 /*PolicyValLen*/);    
+    
     //
     // Disable the LED blinking Timer as Device is connected to AP
     //
@@ -709,6 +728,7 @@ void MqttClient(void *pvParameters)
         LOOP_FOREVER();
     }
 
+connect_to_broker:
     while(iCount < iNumBroker)
     {
         //create client context
@@ -820,7 +840,7 @@ void MqttClient(void *pvParameters)
     {
         osi_MsgQRead( &g_PBQueue, &RecvQue, OSI_WAIT_FOREVER);
         
-        if(PUSH_BUTTON_SW2_PRESSED == RecvQue)
+        if(PUSH_BUTTON_SW2_PRESSED == RecvQue.event)
         {
             Button_IF_EnableInterrupt(SW2);
             //
@@ -832,7 +852,7 @@ void MqttClient(void *pvParameters)
             UART_PRINT("Topic: %s\n\r",pub_topic_sw2);
             UART_PRINT("Data: %s\n\r",data_sw2);
         }
-        else if(PUSH_BUTTON_SW3_PRESSED == RecvQue)
+        else if(PUSH_BUTTON_SW3_PRESSED == RecvQue.event)
         {
             Button_IF_EnableInterrupt(SW3);
             //
@@ -844,9 +864,25 @@ void MqttClient(void *pvParameters)
             UART_PRINT("Topic: %s\n\r",pub_topic_sw3);
             UART_PRINT("Data: %s\n\r",data_sw3);
         }
-        else if(BROKER_DISCONNECTION == RecvQue)
+        else if(BROKER_DISCONNECTION == RecvQue.event)
         {
             iConnBroker--;
+            /* Derive the value of the local_con_conf or clt_ctx from the message */
+			sl_ExtLib_MqttClientCtxDelete(((connect_config*)(RecvQue.hndl))->clt_ctx);
+            
+            if(!IS_CONNECTED(g_ulStatus))
+            {
+                UART_PRINT("device has disconnected from AP \n\r");
+                
+                UART_PRINT("retry connection to the AP\n\r");
+                
+                while(!(IS_CONNECTED(g_ulStatus)) || !(IS_IP_ACQUIRED(g_ulStatus)))
+                {
+                    osi_Sleep(10);
+                }
+                goto connect_to_broker;
+                
+            }
             if(iConnBroker < 1)
             {
                 //
@@ -915,7 +951,7 @@ void main()
     //
     // Start the MQTT Client task
     //
-    osi_MsgQCreate(&g_PBQueue,"PBQueue",sizeof(osi_messages),10);
+    osi_MsgQCreate(&g_PBQueue,"PBQueue",sizeof(event_msg),10);
     lRetVal = osi_TaskCreate(MqttClient,
                             (const signed char *)"Mqtt Client App",
                             OSI_STACK_SIZE, NULL, 2, NULL );

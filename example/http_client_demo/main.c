@@ -85,8 +85,8 @@
 #define GET_REQUEST_URI 	"/get"
 
 
-#define HOST_NAME       	"<host_name>" //"<host name>"
-#define HOST_PORT           <host_port>
+#define HOST_NAME       	"httpbin.org" //"<host name>"
+#define HOST_PORT           80
 
 #define PROXY_IP       	    <proxy_ip>
 #define PROXY_PORT          <proxy_port>
@@ -196,8 +196,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
             pEventData = &pWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request,
-            //'reason_code' is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            //'reason_code' is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("[WLAN EVENT]Device disconnected from the AP: %s,"
                 "BSSID: %x:%x:%x:%x:%x:%x on application's request \n\r",

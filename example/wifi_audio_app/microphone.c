@@ -63,7 +63,7 @@ unsigned long g_ulConnected = 0;
 extern int g_iReceiveCount;
 extern unsigned long  g_ulStatus;
 extern volatile unsigned char g_ucMicStartFlag;
-extern int g_loopback;
+extern unsigned char g_loopback;
 
 extern tCircularBuffer *pPlayBuffer;
 extern tCircularBuffer *pRecordBuffer;

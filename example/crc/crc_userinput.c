@@ -288,27 +288,24 @@ ReadFromUser(unsigned int *uiConfig,unsigned int *uiDataLength,
 unsigned int*
 GetMsg(char *pucMsgBuff,unsigned int *uiDataLength,unsigned int *uiConfig)
 {
-    int i,uiMsgLen;
+    unsigned int uiMsgLen = 0;
     unsigned int *uiData;
     UART_PRINT("\n\r Enter the Message \n\r");
     uiMsgLen=GetCmd(pucMsgBuff, INPUT_MESSAGE_SIZE);
     if(*uiConfig & CRC_CFG_SIZE_8BIT)
-        i=8;
-    else
-        i=32;
-    if((uiMsgLen%i)!=0)
-        *uiDataLength=((uiMsgLen/i)+1)*i;
-    else
-        *uiDataLength=uiMsgLen;
-
-    uiData=(unsigned int *)malloc(*uiDataLength);
-    memset(uiData,0,*uiDataLength);
-    memcpy(uiData,pucMsgBuff,uiMsgLen);
-    if(*uiConfig & CRC_CFG_SIZE_32BIT)
     {
-        *uiDataLength /= 4;
+    	*uiDataLength = uiMsgLen;
+    	uiData=(unsigned int *)malloc(*uiDataLength);
+    	memset(uiData,0,*uiDataLength);
+    	memcpy(uiData,pucMsgBuff,*uiDataLength);
     }
-
+    else
+    {
+    	*uiDataLength = (uiMsgLen+3)/4;
+    	uiData=(unsigned int *)malloc((*uiDataLength) * sizeof(unsigned int));
+    	memset(uiData,0,((*uiDataLength) * sizeof(unsigned int)));
+    	memcpy(uiData,pucMsgBuff,uiMsgLen);
+    }
     return uiData;
 }
 

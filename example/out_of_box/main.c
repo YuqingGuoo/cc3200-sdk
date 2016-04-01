@@ -400,8 +400,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
             pEventData = &pWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request,
-            //'reason_code' is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            //'reason_code' is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("[WLAN EVENT] Device disconnected from the AP: %s, "
                            "BSSID: %x:%x:%x:%x:%x:%x on application's "
@@ -782,6 +782,7 @@ void SimpleLinkSockEventHandler(SlSockEvent_t *pSock)
           break;
     }
 }
+
 
 //*****************************************************************************
 // SimpleLink Asynchronous Event Handlers -- End

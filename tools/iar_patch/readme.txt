@@ -1,8 +1,8 @@
 
 IAR Patch Install
 ----------------------
-Note: Below step is required only for IAR 7.2 or lower only(must not be done for IAR 7.3 or higher)
-1. For FTDI based CC32xx device, copy "armLMIFTDI.dll" to "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0_2\arm\bin" 
+Note: Below step is required only for IAR 7.2 (must not be done for IAR 7.3 or higher)
+1. For FTDI based CC32xx device, copy "armLMIFTDI.dll" to "C:\Program Files (x86)\IAR Systems\Embedded Workbench <version>\arm\bin" 
 
 IAR  : Debugging Using FTDI
 ---------------------------

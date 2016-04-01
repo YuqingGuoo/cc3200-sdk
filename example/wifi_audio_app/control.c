@@ -90,6 +90,7 @@ typedef struct
 
 volatile unsigned char g_ucMicStartFlag = 0;
 volatile unsigned char g_ucSpkrStartFlag = 0;
+extern unsigned char g_loopback;
 
 //*****************************************************************************
 //
@@ -128,6 +129,9 @@ void MicroPhoneControl(void* pValue)
             osi_Sleep(50);
         }
          g_ucMicStartFlag = 1;
+#ifdef MULTICAST
+         g_loopback = 0;
+#endif
         
      }
      else
@@ -212,6 +216,7 @@ void SpeakerControl(void* pValue)
             osi_Sleep(50);
         }                     
         g_ucSpkrStartFlag = 1;
+        g_loopback = 0;
     }
     else
     {
@@ -253,7 +258,7 @@ static void MICStartStopControl()
 {    
   long lRetVal = -1;
   tTxMsg sMsg;
-  sMsg.pEntry = &MicroPhoneControl;
+  sMsg.pEntry = (P_OSI_SPAWN_ENTRY)&MicroPhoneControl;
   sMsg.pValue = NULL;
   lRetVal = osi_MsgQWrite(&g_ControlMsgQueue,&sMsg,OSI_NO_WAIT);      
   if(lRetVal < 0)
@@ -276,7 +281,7 @@ static void SpeakerStartStopControl()
 {  
   long lRetVal = -1;
   tTxMsg sMsg;
-  sMsg.pEntry = &SpeakerControl;
+  sMsg.pEntry = (P_OSI_SPAWN_ENTRY)&SpeakerControl;
   sMsg.pValue = NULL;
   lRetVal = osi_MsgQWrite(&g_ControlMsgQueue,&sMsg,OSI_NO_WAIT);  
   if(lRetVal < 0)

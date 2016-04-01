@@ -103,7 +103,7 @@
 #define OSI_STACK_SIZE          3000
 
 #define PREFIX_BUFFER "/data/2.5/weather?q="
-#define POST_BUFFER "&mode=xml&units=imperial"
+#define POST_BUFFER "&mode=xml&units=imperial&appid=<APP ID>"
 
 #define HOST_NAME       "api.openweathermap.org"
 #define HOST_PORT       (80)
@@ -484,11 +484,13 @@ static long GetWeather(HTTPCli_Handle cli, int iSockID, char *pcCityName)
         {
             break;
         }
+        
+        lRetVal = HandleXMLData(acRecvbuff);
+        ASSERT_ON_ERROR(lRetVal);
+        
         if(!moreFlag)
             break;
 
-        lRetVal = HandleXMLData(acRecvbuff);
-        ASSERT_ON_ERROR(lRetVal);
     }
 
 

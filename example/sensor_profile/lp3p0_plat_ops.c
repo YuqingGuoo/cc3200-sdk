@@ -193,6 +193,9 @@ void lp3p0_restore_soc_data(void)
 {       
         /* Invoking the default CC3xxx service impl. */
         cc_restore_soc_data();
+		
+		PRCMCC3200MCUInit();
+		
         //
         // Configure the pinmux settings for the peripherals exercised
         //

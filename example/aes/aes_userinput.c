@@ -64,11 +64,22 @@
 
 #define UART_PRINT Report
 #define BUFFER_LEN 520
-unsigned int uiKey128[4],uiKey192[6],uiKey256[8];
+unsigned int uiKey128[4],uiKey192[6],uiKey256[8], uiKeyUserDefined[BUFFER_LEN];
 unsigned int pui32AESPlainMsg[16],pui32AESCipherTxt[16],
             uiIV[4]={0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c};
-char *AES128Key1,*AES128Key2,*AES128Key3,*AES192Key1,*AES192Key2,*AES192Key3,
-            *AES256Key1,*AES256Key2,*AES256Key3;
+
+char *AES128Key1 = "abcdefghijklmnpq";
+char *AES128Key2 = "rstuvwxyz1234567";
+char *AES128Key3 = "12345678abcdefgh";
+
+char *AES192Key1 = "abcdefghijklmnpqrstuvwxy";
+char *AES192Key2 = "rstuvwxyz1234567abcdefgh";
+char *AES192Key3 = "12345678abcdefghrstuvwxy";
+
+char *AES256Key1 = "abcdefghijklmnpqrstuvwxy12345678";
+char *AES256Key2 = "rstuvwxyz1234567abcdefghijklmnpq";
+char *AES256Key3 = "12345678abcdefghrstuvwxyijklmnpq";
+
 unsigned int ui32aes_mode;
 
 //*****************************************************************************
@@ -186,6 +197,8 @@ GetKey(unsigned int uiKeySize, char *pucKeyBuff)
 {
   char cChar;
   unsigned int uiMsgLen;
+  char	keyLen;
+
   UART_PRINT("\n\r Do you want to use Pre-Defined Key ???(y/n) \n\r");
   
   //
@@ -277,14 +290,28 @@ GetKey(unsigned int uiKeySize, char *pucKeyBuff)
 
   else if(cChar=='n' || cChar=='N')
   {
+	  if(uiKeySize==AES_CFG_KEY_SIZE_128BIT)
+	  {
+		  keyLen = 16;
+	  }
+	  else if(uiKeySize==AES_CFG_KEY_SIZE_192BIT)
+	  {
+		  keyLen = 24;
+	  }
+	  else if(uiKeySize==AES_CFG_KEY_SIZE_256BIT)
+	  {
+		  keyLen = 32;
+	  }
+
+
       //
       // Ask for the Key
       //
       UART_PRINT("\n\rEnter the Key \n\r");
       uiMsgLen=GetCmd(pucKeyBuff,520);
-      if(uiMsgLen!=uiKeySize)
+      if(uiMsgLen!=keyLen)
       {
-        UART_PRINT("\n\r Enter Valid Key of length %d\n\r",uiKeySize);
+        UART_PRINT("\n\r Enter Valid Key of length %d\n\r",keyLen);
         return false;
       }
 
@@ -341,6 +368,11 @@ GetMsg( char *pucMsgBuff,unsigned int *uiDataLength)
     //
     *uiDataLength=iSize;
     uiData=(unsigned int *)malloc(*uiDataLength);
+    if(uiData == NULL)
+    {
+        UART_PRINT("Failed to allocate memory\n\r");
+        return(NULL);
+    }
     memset(uiData,0,*uiDataLength);
     memcpy(uiData,pucMsgBuff,(uiMsgLen));
     return uiData;
@@ -398,10 +430,6 @@ ReadFromUser(unsigned int *uiConfig,unsigned int *uiKeySize,unsigned int **uiKey
     pui32AESPlainMsg[0] = '\0';
     pucMsgBuff=( char*)&pui32AESPlainMsg[0];
     
-    //
-    //Set the default keys.
-    //
-    SetKeys();
     UsageDisplay();
     UART_PRINT("cmd# ");
     GetCmd(ucCmdBuffer,520);
@@ -427,17 +455,23 @@ ReadFromUser(unsigned int *uiConfig,unsigned int *uiKeySize,unsigned int **uiKey
         }
         else
         {
-            pucKeyBuff = (char *) malloc(BUFFER_LEN);
+            pucKeyBuff = (char *)&uiKeyUserDefined[0];
         }
 
         if(GetKey(*uiKeySize,pucKeyBuff))
         {
             uiData=GetMsg(pucMsgBuff,uiDataLength);
-            if(uiData == 0)
+            if(uiData == NULL)
             {
                 return NULL;
             }
             *puiResult=(unsigned int *)malloc(*uiDataLength);
+            if(*puiResult == NULL)
+            {
+                free(uiData);
+                UART_PRINT("Failed to allocate memory\n\r");
+                return NULL;
+            }
             memset(*puiResult,0,*uiDataLength);
         }
         else
@@ -453,52 +487,6 @@ ReadFromUser(unsigned int *uiConfig,unsigned int *uiKeySize,unsigned int **uiKey
     return uiData;
 }
 
-
-
-//*****************************************************************************
-//
-//! Set Keys Function
-//!
-//! This function
-//!        1. Defines the Default Keys
-//! \param None
-//!
-//! \return None
-//
-//*****************************************************************************
-void
-SetKeys()
-{
-    AES128Key1 = MemAllocAndCpy(16, "abcdefghijklmnpq");
-    AES128Key2 = MemAllocAndCpy(16, "rstuvwxyz1234567");
-    AES128Key3 = MemAllocAndCpy(16, "12345678abcdefgh");
-    
-    AES192Key1 = MemAllocAndCpy(24, "abcdefghijklmnpqrstuvwxy");
-    AES192Key2 = MemAllocAndCpy(24, "rstuvwxyz1234567abcdefgh");
-    AES192Key3 = MemAllocAndCpy(24, "12345678abcdefghrstuvwxy");
-    
-    AES256Key1 = MemAllocAndCpy(32, "abcdefghijklmnpqrstuvwxy12345678");
-    AES256Key2 = MemAllocAndCpy(32, "rstuvwxyz1234567abcdefghijklmnpq");
-    AES256Key3 = MemAllocAndCpy(32, "12345678abcdefghrstuvwxyijklmnpq");
-}
-//*****************************************************************************
-//
-//! memory allocate and copy string
-//!
-//! This function
-//!        1. Allocate memory and defines the Default Keys
-//! \param None
-//!
-//! \return None
-//
-//*****************************************************************************
-char *
-MemAllocAndCpy(int size, char *keyVal)
-{
-  char * key =( char*)malloc(size);
-  strcpy(key, keyVal);
-  return key;
-}
 
 //*****************************************************************************
 //

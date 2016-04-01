@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OCLastSavedByProductVersion</name>
-          <state>7.30.4.8186</state>
+          <state>7.20.2.7418</state>
         </option>
         <option>
           <name>OCDownloadAttachToProgram</name>
@@ -520,7 +520,7 @@
       <name>IJET_ID</name>
       <archiveVersion>2</archiveVersion>
       <data>
-        <version>5</version>
+        <version>3</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -717,20 +717,6 @@
         <option>
           <name>OCJetEmuParams</name>
           <state>1</state>
-        </option>
-        <option>
-          <name>IjetPreferETB</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>IjetTraceSettingsList</name>
-          <version>0</version>
-          <state>0</state>
-        </option>
-        <option>
-          <name>IjetTraceSizeList</name>
-          <version>0</version>
-          <state>2</state>
         </option>
       </data>
     </settings>
@@ -1317,10 +1303,6 @@
       </plugin>
       <plugin>
         <file>$TOOLKIT_DIR$\plugins\rtos\OpenRTOS\OpenRTOSPlugin.ewplugin</file>
-        <loadFlag>0</loadFlag>
-      </plugin>
-      <plugin>
-        <file>$TOOLKIT_DIR$\plugins\rtos\Quadros\Quadros_EWB7_Plugin.ewplugin</file>
         <loadFlag>0</loadFlag>
       </plugin>
       <plugin>

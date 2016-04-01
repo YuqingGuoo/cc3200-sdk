@@ -71,6 +71,7 @@ SOURCES += ../../common/gpio_if.c
 SOURCES += ../../common/uart_if.c
 SOURCES += ../../common/timer_if.c
 SOURCES += ../../common/udma_if.c
+SOURCES += ../../common/network_common.c
 SOURCES += ../main.c
 SOURCES += ../pinmux.c
 
@@ -88,6 +89,7 @@ OBJECTS  += $(patsubst %.c, ${OBJDIR}/gpio_if.obj, ../../common/gpio_if.c)
 OBJECTS  += $(patsubst %.c, ${OBJDIR}/uart_if.obj, ../../common/uart_if.c)
 OBJECTS  += $(patsubst %.c, ${OBJDIR}/timer_if.obj, ../../common/timer_if.c)
 OBJECTS  += $(patsubst %.c, ${OBJDIR}/udma_if.obj, ../../common/udma_if.c)
+OBJECTS  += $(patsubst %.c, ${OBJDIR}/network_common.obj, ../../common/network_common.c)
 OBJECTS  += $(patsubst %.c, ${OBJDIR}/main.obj, ../main.c)
 OBJECTS  += $(patsubst %.c, ${OBJDIR}/pinmux.obj, ../pinmux.c)
 
@@ -96,7 +98,7 @@ NAME = get_time
 
 ###### Extend compiler options here ######
 
-CFLAGS += -I$(CCWARE_INSTALLATION_DIR)/.. -I$(CCWARE_INSTALLATION_DIR)/../inc -I$(CCWARE_INSTALLATION_DIR)/../driverlib -I$(CCWARE_INSTALLATION_DIR)/../oslib -I$(CCWARE_INSTALLATION_DIR)/../simplelink -I$(CCWARE_INSTALLATION_DIR)/../simplelink/Include -I$(CCWARE_INSTALLATION_DIR)/../oslib -I$(CCWARE_INSTALLATION_DIR)/../example/common -DUSE_TIRTOS
+CFLAGS += -I$(CCWARE_INSTALLATION_DIR)/.. -I$(CCWARE_INSTALLATION_DIR)/../inc -I$(CCWARE_INSTALLATION_DIR)/../driverlib -I$(CCWARE_INSTALLATION_DIR)/../oslib -I$(CCWARE_INSTALLATION_DIR)/../simplelink -I$(CCWARE_INSTALLATION_DIR)/../simplelink/Include -I$(CCWARE_INSTALLATION_DIR)/../simplelink_extlib/provisioninglib -I$(CCWARE_INSTALLATION_DIR)/../oslib -I$(CCWARE_INSTALLATION_DIR)/../example/common -DUSE_TIRTOS -std=c99
 
 OTHERPROJECT = $(CCWARE_INSTALLATION_DIR)/../ti_rtos/ti_rtos_config/GCC/configPkg
 ###### Extend linker options here ######

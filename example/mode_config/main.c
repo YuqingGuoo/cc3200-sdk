@@ -132,6 +132,31 @@ static void BoardInit();
 /****************************************************************************/
 /*                      LOCAL FUNCTION DEFINITIONS                          */
 /****************************************************************************/
+//*****************************************************************************
+//
+//! \brief This function handles General Events
+//!
+//! \param[in]     pDevEvent - Pointer to General Event Info
+//!
+//! \return None
+//!
+//*****************************************************************************
+void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent)
+{
+    if(!pDevEvent)
+    {
+        return;
+    }
+
+    //
+    // Most of the general errors are not FATAL are are to be handled
+    // appropriately by the application
+    //
+    UART_PRINT("[GENERAL EVENT] - ID=[%d] Sender=[%d]\n\n",
+               pDevEvent->EventData.deviceEvent.status,
+               pDevEvent->EventData.deviceEvent.sender);
+}
+
 //****************************************************************************
 //
 //!    \brief                         None
@@ -208,6 +233,7 @@ void SimpleLinkHttpServerCallback(SlHttpServerEvent_t *pSlHttpServerEvent,
                                 SlHttpServerResponse_t *pSlHttpServerResponse)
 {
 }
+
 
 //****************************************************************************
 //

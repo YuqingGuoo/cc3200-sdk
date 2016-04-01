@@ -71,6 +71,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/network.c</locationURI>
 		</link>
 		<link>
+			<name>network_common.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/common/network_common.c</locationURI>
+		</link>
+		<link>
 			<name>pcm_handler.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/pcm_handler.c</locationURI>

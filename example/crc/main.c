@@ -176,15 +176,16 @@ LoadDefaultValues(unsigned int ui32Config,unsigned int *uiConfig,unsigned int
     // Read Seed Value
     //
     *uiSeed=g_psCRC8005TestVectors.ui32Seed;
-    puiResult=(unsigned int*)malloc(4);
-    memset(puiResult,0,4);
+    *puiResult = 0;
     uiData=(unsigned int*)malloc(64);
+    if(uiData != NULL)
+    {
     memset(uiData,0,64);
     //
     // Read the Data
     //
     memcpy(uiData,g_psCRC8005TestVectors.ui32Data,64);
-
+    }
     return uiData; 
    
 }
@@ -317,6 +318,10 @@ main()
         // Display Plain Text
         //
         UART_PRINT("\n\r The CRC Result in hex is: 0x%02x \n\r",uiResult);
+        if(puiData)
+        {
+            free(puiData);
+        }
     }
 #else
     //

@@ -186,8 +186,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pSlWlanEvent)
             pEventData = &pSlWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request, 'reason_code'
-            // is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            // is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("Device disconnected from the Peer Device on "
                                  "application's request \n\r");
@@ -383,6 +383,30 @@ void SimpleLinkNetAppEventHandler(SlNetAppEvent_t *pNetAppEvent)
     }
 }
 
+//*****************************************************************************
+//
+//! \brief This function handles General Events
+//!
+//! \param[in]     pDevEvent - Pointer to General Event Info
+//!
+//! \return None
+//!
+//*****************************************************************************
+void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent)
+{
+    if(!pDevEvent)
+    {
+        return;
+    }
+
+    //
+    // Most of the general errors are not FATAL are are to be handled
+    // appropriately by the application
+    //
+    UART_PRINT("[GENERAL EVENT] - ID=[%d] Sender=[%d]\n\n",
+               pDevEvent->EventData.deviceEvent.status,
+               pDevEvent->EventData.deviceEvent.sender);
+}
 
 //*****************************************************************************
 //
@@ -401,7 +425,6 @@ void SimpleLinkSockEventHandler(SlSockEvent_t *pSock)
     //UART_PRINT(" [SOCK EVENT] Unexpected event \n\r");
 
 }
-
 
 
 //****************************************************************************

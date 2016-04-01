@@ -275,7 +275,7 @@ int main()
     //
     // Create RX and TX Buffer
     //
-    if(RecordPlay & I2S_MODE_TX)
+    if(RecordPlay == I2S_MODE_RX_TX)
     {
         pRecordBuffer = CreateCircularBuffer(RECORD_BUFFER_SIZE);
         if(pRecordBuffer == NULL)
@@ -286,7 +286,7 @@ int main()
     }
 
     /* Play */
-    if(RecordPlay == I2S_MODE_RX_TX)
+    if(RecordPlay & I2S_MODE_TX)
     {
         pPlayBuffer = CreateCircularBuffer(PLAY_BUFFER_SIZE);
         if(pPlayBuffer == NULL)
@@ -341,12 +341,12 @@ int main()
     // Initialize the DMA Module
     //    
     UDMAInit();
-    if(RecordPlay == I2S_MODE_RX_TX)
+    if(RecordPlay & I2S_MODE_TX)
     {
         UDMAChannelSelect(UDMA_CH5_I2S_TX, NULL);
         SetupPingPongDMATransferRx(pPlayBuffer);
     }
-    if(RecordPlay & I2S_MODE_TX)
+    if(RecordPlay == I2S_MODE_RX_TX)
     {
         UDMAChannelSelect(UDMA_CH4_I2S_RX, NULL);
         SetupPingPongDMATransferTx(pRecordBuffer);

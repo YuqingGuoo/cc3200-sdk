@@ -7,7 +7,6 @@ var files =
     [ "simplelink.h", "simplelink_8h_source.html", null ],
     [ "socket.h", "socket_8h_source.html", null ],
     [ "trace.h", "trace_8h_source.html", null ],
-    [ "user.h", "user_8h_source.html", null ],
     [ "wlan.h", "wlan_8h_source.html", null ],
     [ "wlan_rx_filters.h", "wlan__rx__filters_8h_source.html", null ]
 ];

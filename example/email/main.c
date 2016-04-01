@@ -932,7 +932,7 @@ void PushButtonHandler(void *pvParameters)
 void SendEmailInterruptHandler()
 {
     tPushButtonMsg sMsg;
-    sMsg.pEntry = &PushButtonMailSend;
+    sMsg.pEntry = (P_OSI_SPAWN_ENTRY)&PushButtonMailSend;
     sMsg.pValue = NULL;
     osi_MsgQWrite(&g_PBQueue,&sMsg,OSI_NO_WAIT);
 }
@@ -997,7 +997,7 @@ void SmartConfigTask(void* pValue)
 void SmartConfigInterruptHandler()
 {
     tPushButtonMsg sMsg;
-    sMsg.pEntry = &SmartConfigTask;
+    sMsg.pEntry = (P_OSI_SPAWN_ENTRY)&SmartConfigTask;
     sMsg.pValue = NULL;
     osi_MsgQWrite(&g_PBQueue,&sMsg,OSI_NO_WAIT);
 }

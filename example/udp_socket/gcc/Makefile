@@ -69,6 +69,7 @@ IPATH+=../../../driverlib
 IPATH+=../../../simplelink
 IPATH+=../../../simplelink/source
 IPATH+=../../../simplelink/include
+IPATH+=../../../simplelink_extlib/provisioninglib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -100,6 +101,7 @@ ${BINDIR}/udp_socket.axf: ${OBJDIR}/main.o
 ${BINDIR}/udp_socket.axf: ${OBJDIR}/uart_if.o
 ${BINDIR}/udp_socket.axf: ${OBJDIR}/pinmux.o
 ${BINDIR}/udp_socket.axf: ${OBJDIR}/udma_if.o
+${BINDIR}/udp_socket.axf: ${OBJDIR}/network_common.o
 ${BINDIR}/udp_socket.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/udp_socket.axf: ${ROOT}/simplelink/${COMPILER}/${BINDIR}/libsimplelink_nonos.a
 ${BINDIR}/udp_socket.axf: ${ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a

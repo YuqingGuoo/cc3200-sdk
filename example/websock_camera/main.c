@@ -161,10 +161,6 @@ void main() {
 	BoardInit();
 
 	//
-	// Enable and configure DMA
-	//
-	UDMAInit();
-	//
 	// Pinmux for UART
 	//
 	PinMuxConfig();
@@ -174,12 +170,18 @@ void main() {
 	// Configuring UART
 	//
 	InitTerm();
-
+	
     //
     // Display Application Banner
     //
     DisplayBanner(APP_NAME);
 #endif
+
+    //
+    // Enable and configure DMA
+    //
+    UDMAInit();
+
     //
     // Start the SimpleLink Host
     //

@@ -410,10 +410,9 @@ static void DMAConfig()
 {
     memset(g_image.g_image_buffer,0xF80F,sizeof(g_image.g_image_buffer));
     p_buffer = &(g_image.g_image_buffer[0]);
-    //
-    // Initilalize DMA 
-    //
-    UDMAInit();
+
+    MAP_uDMAChannelAttributeDisable(UDMA_CH22_CAMERA, UDMA_ATTR_ALTSELECT);
+
     //
     // Setup ping-pong transfer
     //

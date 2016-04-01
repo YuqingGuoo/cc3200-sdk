@@ -95,6 +95,54 @@
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
 //*****************************************************************************
+unsigned int pui32AES128Key[4] = {
+    0x16157e2b, 0xa6d2ae28, 0x8815f7ab, 0x3c4fcf09
+};
+
+unsigned int pui32AES192Key[6] = {
+    0xf7b0738e, 0x52640eda, 0x2bf310c8, 0xe5799080,
+    0xd2eaf862, 0x7b6b2c52
+};
+
+unsigned int pui32AES256Key[8] = {
+    0x10eb3d60, 0xbe71ca15, 0xf0ae732b, 0x81777d85,
+    0x072c351f, 0xd708613b, 0xa310982d, 0xf4df1409
+};
+
+unsigned int pui32AESPlainText[16] = {
+    0xe2bec16b, 0x969f402e, 0x117e3de9, 0x2a179373,
+    0x578a2dae, 0x9cac031e, 0xac6fb79e, 0x518eaf45,
+    0x461cc830, 0x11e45ca3, 0x19c1fbe5, 0xef520a1a,
+    0x45249ff6, 0x179b4fdf, 0x7b412bad, 0x10376ce6
+};
+
+unsigned int pui32AESCipherText[16] = {
+         0xb47bd73a, 0x60367a0d, 0xf3ca9ea8, 0x97ef6624,
+         0x85d5d3f5, 0x9d69b903, 0x5a8985e7, 0xafbafd96,
+         0x7fcdb143, 0x23ce8e59, 0xe3001b88, 0x880603ed,
+         0x5e780c7b, 0x3fade827, 0x71202382, 0xd45d7204
+};
+
+sAESTestVector psAESCBCTestVectors =
+{
+
+        AES_CFG_KEY_SIZE_128BIT,
+        pui32AES128Key,
+        0,
+        0,
+        {0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c},
+        {0x00000000, 0x00000000, 0x00000000, 0x00000000},
+        64,
+        pui32AESPlainText,
+        0,
+        0,
+        {0xacab4976, 0x46b21981, 0x9b8ee9ce, 0x7d19e912,
+         0x9bcb8650, 0xee197250, 0x3a11db95, 0xb2787691,
+         0xb8d6be73, 0x3b74c1e3, 0x9ee61671, 0x16952222,
+         0xa1caf13f, 0x09ac1f68, 0x30ca0e12, 0xa7e18675}
+
+};
+
 static volatile bool g_bContextInIntFlag;
 static volatile bool g_bDataInIntFlag;
 static volatile bool g_bContextOutIntFlag;
@@ -310,7 +358,7 @@ LoadDefaultValues(unsigned int ui32Config,unsigned int *uiConfig,
     {
         //Failed to allocate memory
         UART_PRINT("Failed to allocate memory");
-        return 0;
+        return NULL;
     }
     uiData=(unsigned int*)malloc(*uiDataLength);
     if(uiData != NULL)
@@ -321,7 +369,7 @@ LoadDefaultValues(unsigned int ui32Config,unsigned int *uiConfig,
     {
         //Failed to allocate memory
         UART_PRINT("Failed to allocate memory");
-        return 0;
+        return NULL;
     }
     //
     // Copy Plain Text or Cipher Text into the variable Data
@@ -400,12 +448,12 @@ BoardInit(void)
 void 
 main()
 {
-    unsigned int uiConfig,uiKeySize,*puiKey1,*puiData,*puiResult,
+    unsigned int uiConfig,uiKeySize,*puiKey1,*puiData,*puiResult=NULL,
     uiDataLength,uiIV[4]={0x03020100, 0x07060504, 0x0b0a0908, 0x0f0e0d0c};
 
 #ifdef USER_INPUT
-    unsigned int ui32CharCount;
-    unsigned char* pui8Result;
+    unsigned int uiCharCount;
+    unsigned char* pucResult;
 #else
     unsigned int *puiIV;
     puiIV=&uiIV[0];
@@ -445,9 +493,8 @@ main()
         //
         puiData = ReadFromUser(&uiConfig,&uiKeySize,&puiKey1,&uiDataLength,\
                                 &puiResult);
-        if(puiData==NULL)
+        if((puiData == NULL) || (puiResult == NULL))
         {
-            UART_PRINT("\n\rInvalid Input. Please try again. \n\r");
             continue;
         }
 #else
@@ -457,6 +504,11 @@ main()
         puiData = LoadDefaultValues(AES_CFG_DIR_ENCRYPT | AES_CFG_MODE_CBC ,
                                     &uiConfig,&uiKeySize,&puiIV,&puiKey1,
                                     &uiDataLength,&puiResult);
+        
+        if((puiData == NULL) || (puiResult == NULL))
+        {
+            while(FOREVER);
+        }
 #endif
 
         //
@@ -488,12 +540,20 @@ main()
         // Display Plain Text
         //
         UART_PRINT("\n\r Text after decryption ");
-        pui8Result = (unsigned char *)puiResult;
-        for(ui32CharCount=0;ui32CharCount<uiDataLength;ui32CharCount++)
+        pucResult = (unsigned char *)puiResult;
+        for(uiCharCount=0;uiCharCount<uiDataLength;uiCharCount++)
         {
-            UART_PRINT("%c",*(pui8Result+ui32CharCount));
+            UART_PRINT("%c",*(pucResult+uiCharCount));
         }
         UART_PRINT("\n\r");
+        if(puiResult)
+        {
+        	free(puiResult);
+        }
+        if(puiData)
+        {
+        	free(puiData);
+        }
     }
     #else
         //

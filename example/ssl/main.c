@@ -215,8 +215,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
             pEventData = &pWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request,
-            //'reason_code' is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            //'reason_code' is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("[WLAN EVENT]Device disconnected from the AP: %s,"
                     "BSSID: %x:%x:%x:%x:%x:%x on application's request \n\r",
@@ -820,6 +820,17 @@ static long ssl()
         GPIO_IF_LedOn(MCU_RED_LED_GPIO);
         return lRetVal;
     }
+
+    lRetVal = sl_SetSockOpt(iSockID, SL_SOL_SOCKET, \
+    						SO_SECURE_DOMAIN_NAME_VERIFICATION, \
+							g_Host, strlen((const char *)g_Host));
+    if( lRetVal < 0 )
+    {
+    	UART_PRINT("Device couldn't set socket options \n\r");
+    	GPIO_IF_LedOn(MCU_RED_LED_GPIO);
+    	return lRetVal;
+    }
+
 
     /* connect to the peer device - Google server */
     lRetVal = sl_Connect(iSockID, ( SlSockAddr_t *)&Addr, iAddrSize);

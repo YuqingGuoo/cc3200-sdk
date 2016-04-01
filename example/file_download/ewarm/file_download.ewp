@@ -246,11 +246,11 @@
         </option>
         <option>
           <name>IExtraOptionsCheck</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state></state>
+          <state>--diag_suppress Pa050</state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -307,6 +307,7 @@
           <state>$PROJ_DIR$/../../../simplelink/source</state>
           <state>$PROJ_DIR$/../../../simplelink/include</state>
           <state>$PROJ_DIR$/../../../netapps</state>
+          <state>$PROJ_DIR$/../../../simplelink_extlib/provisioninglib</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -957,6 +958,9 @@
   </configuration>
   <file>
     <name>$PROJ_DIR$\..\main.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\common\network_common.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\pinmux.c</name>

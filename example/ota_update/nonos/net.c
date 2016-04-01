@@ -200,6 +200,7 @@ void SimpleLinkSockEventHandler(SlSockEvent_t *pSock)
   return;
 }
 
+
 //*****************************************************************************
 //! \brief This function puts the device in its default state. It:
 //!           - Set the mode to STATION

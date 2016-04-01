@@ -86,7 +86,7 @@
 #define APPLICATION_NAME        "TCP Socket"
 #define APPLICATION_VERSION     "1.1.1"
 
-#define IP_ADDR             0xc0a8006E /* 192.168.0.110 */
+#define IP_ADDR             0xc0a80064 /* 192.168.0.100 */
 #define PORT_NUM            5001
 #define BUF_SIZE            1400
 #define TCP_PACKET_COUNT    1000
@@ -209,8 +209,8 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
             pEventData = &pWlanEvent->EventData.STAandP2PModeDisconnected;
 
             // If the user has initiated 'Disconnect' request,
-            //'reason_code' is SL_USER_INITIATED_DISCONNECTION
-            if(SL_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
+            //'reason_code' is SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION
+            if(SL_WLAN_DISCONNECT_USER_INITIATED_DISCONNECTION == pEventData->reason_code)
             {
                 UART_PRINT("[WLAN EVENT]Device disconnected from the AP: %s,"
                 "BSSID: %x:%x:%x:%x:%x:%x on application's request \n\r",

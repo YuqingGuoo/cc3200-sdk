@@ -41,6 +41,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/main.c</locationURI>
 		</link>
 		<link>
+			<name>network_common.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/common/network_common.c</locationURI>
+		</link>
+		<link>
 			<name>network_if.c</name>
 			<type>1</type>
 			<locationURI>CC3200_SDK_ROOT/example/common/network_if.c</locationURI>
@@ -72,7 +77,7 @@
 		</link>
 	</linkedResources>
 	<variableList>
-	<variable>
+		<variable>
 			<name>CC3200_SDK_ROOT</name>
 			<value>$%7BPARENT-3-PROJECT_LOC%7D</value>
 		</variable>

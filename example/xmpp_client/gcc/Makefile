@@ -76,6 +76,7 @@ IPATH+=../../../third_party/FreeRTOS
 IPATH+=../../../third_party/FreeRTOS/source
 IPATH+=../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4
 IPATH+=../../../third_party/FreeRTOS/source/include
+IPATH+=../../../simplelink_extlib/provisioninglib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -106,6 +107,7 @@ ${BINDIR}:
 ${BINDIR}/xmpp_client.axf: ${OBJDIR}/main.o
 ${BINDIR}/xmpp_client.axf: ${OBJDIR}/pinmux.o
 ${BINDIR}/xmpp_client.axf: ${OBJDIR}/gpio_if.o
+${BINDIR}/xmpp_client.axf: ${OBJDIR}/network_common.o
 ${BINDIR}/xmpp_client.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/xmpp_client.axf: ${ROOT}/netapps/xmpp/client/${COMPILER}/${BINDIR}/libxmpp.a
 ${BINDIR}/xmpp_client.axf: ${ROOT}/simplelink/${COMPILER}/${BINDIR}/libsimplelink.a

@@ -2,6 +2,12 @@
 
 <workspace>
   <project>
+    <path>$WS_DIR$\..\..\..\..\simplelink_extlib\flc\ewarm\flc.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\..\..\..\simplelink_extlib\ota\ewarm\ota.ewp</path>
+  </project>
+  <project>
     <path>$WS_DIR$\ota_update_os.ewp</path>
   </project>
   <batchBuild/>

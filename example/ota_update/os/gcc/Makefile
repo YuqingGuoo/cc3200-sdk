@@ -74,6 +74,7 @@ IPATH+=../../../../third_party/FreeRTOS
 IPATH+=../../../../third_party/FreeRTOS/source
 IPATH+=../../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4
 IPATH+=../../../../third_party/FreeRTOS/source/include
+IPATH+=../../../../simplelink_extlib/provisioninglib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -107,6 +108,7 @@ ${BINDIR}/ota_update_os.axf: ${OBJDIR}/net.o
 ${BINDIR}/ota_update_os.axf: ${OBJDIR}/button_if.o
 ${BINDIR}/ota_update_os.axf: ${OBJDIR}/uart_if.o
 ${BINDIR}/ota_update_os.axf: ${OBJDIR}/udma_if.o
+${BINDIR}/ota_update_os.axf: ${OBJDIR}/network_common.o
 ${BINDIR}/ota_update_os.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/ota_update_os.axf: ${ROOT}/simplelink_extlib/ota/${COMPILER}/${BINDIR}/ota.a
 ${BINDIR}/ota_update_os.axf: ${ROOT}/simplelink_extlib/flc/${COMPILER}/${BINDIR}/flc.a

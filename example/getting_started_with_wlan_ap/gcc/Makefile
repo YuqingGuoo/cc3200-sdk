@@ -75,6 +75,7 @@ IPATH+=../../../third_party/FreeRTOS
 IPATH+=../../../third_party/FreeRTOS/source
 IPATH+=../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4
 IPATH+=../../../third_party/FreeRTOS/source/include
+IPATH+=../../../simplelink_extlib/provisioninglib
 
 #
 # The default rule, which causes the driver library to be built.
@@ -105,6 +106,7 @@ ${BINDIR}:
 ${BINDIR}/wlan_ap.axf: ${OBJDIR}/main.o
 ${BINDIR}/wlan_ap.axf: ${OBJDIR}/pinmux.o
 ${BINDIR}/wlan_ap.axf: ${OBJDIR}/uart_if.o
+${BINDIR}/wlan_ap.axf: ${OBJDIR}/network_common.o
 ${BINDIR}/wlan_ap.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/wlan_ap.axf: ${ROOT}/simplelink/${COMPILER}/${BINDIR}/libsimplelink.a
 ${BINDIR}/wlan_ap.axf: ${ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a

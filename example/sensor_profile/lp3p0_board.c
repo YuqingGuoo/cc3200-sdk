@@ -128,8 +128,10 @@ int clk_enbl_op(struct soc_module *hw_module, enum soc_pm Sx)
                                         PRCM_RUN_MODE_CLK|PRCM_SLP_MODE_CLK);
                 break;
         case e_pm_S2:
+            /*
                 MAP_PRCMPeripheralClkEnable(hw_module->module_id,
                                         PRCM_DSLP_MODE_CLK);
+            */
                 break;
                 
         default: break;
@@ -159,8 +161,10 @@ int clk_dsbl_op(struct soc_module *hw_module, enum soc_pm Sx)
                 						 PRCM_RUN_MODE_CLK|PRCM_SLP_MODE_CLK);
                 break;
         case e_pm_S2:
+            /*
                 MAP_PRCMPeripheralClkDisable(hw_module->module_id,
                                         PRCM_DSLP_MODE_CLK);
+            */
                 break;
                 
         default: break;
